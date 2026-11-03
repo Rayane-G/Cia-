@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato</title>
+    <style>
+        /* ==================== ESTILO (CSS INTERNO) ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+
+        /* Fundo em degradê com tons de azul mineral e profundo */
+        body { 
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px; 
+        }
+
+        /* Container centralizado com bordas suaves e sombra leve azulada */
+        .container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            width: 100%; 
+            max-width: 450px; 
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3); 
+        }
+
+        /* Textos principais centralizados */
+        h1 { 
+            text-align: center; 
+            margin-bottom: 5px; 
+            color: #1e3a8a; 
+        }
+
+        .contador-total {
+            text-align: center;
+            color: #475569;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .campo { 
+            margin-bottom: 18px; 
+        }
+
+        /* Alinhamento centralizado para os rótulos principais */
+        label { 
+            display: block; 
+            font-weight: bold; 
+            margin-bottom: 6px; 
+            color: #334155; 
+            text-align: center; 
+        }
+
+        /* Campos de entrada com texto centralizado */
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
+            width: 100%; 
+            padding: 11px; 
+            border: 2px solid #cbd5e1; 
+            border-radius: 6px; 
+            font-size: 1rem;
+            text-align: center; /* Centraliza o texto digitado pelo usuário */
+            color: #0f172a;
+            transition: all 0.2s ease;
+        }
+
+        /* Alinhamento específico do textarea para manter a legibilidade */
+        textarea {
+            text-align: center;
+            resize: none;
+        }
+
+        /* Efeito de foco em azul brilhante */
+        input:focus, select:focus, textarea:focus { 
+            border-color: #3b82f6; 
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            outline: none; 
+        }
+
+        /* Centralização de grupos de seleção (Radios e Checkbox) */
+        .radio-container, .checkbox-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radio-opcoes {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .radio-opcoes label, .checkbox-container label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        /* Mensagens de erro e contadores centralizados */
+        .input-erro { 
+            border-color: #ef4444; 
+            background: #fef2f2; 
+            animation: tremer 0.3s; 
+        }
+
+        .erro { 
+            color: #ef4444; 
+            font-size: 0.8rem; 
+            display: block; 
+            margin-top: 4px; 
+            text-align: center;
+        }
+
+        .contador-letras { 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: #64748b; 
+            margin-top: 3px;
+        }
+
+        /* Botão azul destacado */
+        button { 
+            width: 100%; 
+            padding: 13px; 
+            background: #2563eb; 
+            color: #ffffff; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 1rem;
+            cursor: pointer; 
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        button:hover { 
+            background: #1d4ed8; 
+        }
+
+        /* Caixa de sucesso em azul suave */
+        .sucesso-oculto { display: none; }
+        .sucesso-visivel { 
+            display: block; 
+            background: #dbeafe; 
+            color: #1e40af; 
+            border: 1px solid #bfdbfe;
+            padding: 12px; 
+            border-radius: 6px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            font-weight: bold; 
+            animation: deslizar 0.4s; 
+        }
+
+        /* Animações */
+        @keyframes tremer {
+            0%, 100% { transform: translateX(0); }
+            33% { transform: translateX(-4px); }
+            66% { transform: translateX(4px); }
+        }
+        @keyframes deslizar {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contato</h1>
+        <p class="contador-total">Cadastrados: <strong id="total-contatos">0</strong></p>
+        <div id="sucesso-msg" class="sucesso-oculto">🎉 Enviado com sucesso!</div>
+
+        <form id="form-contato" novalidate>
+            <div class="campo">
+                <label>Nome Completo *</label>
+                <input type="text" id="nome">
+                <span class="erro" id="e-nome"></span>
+            </div>
+
+            <div class="campo">
+                <label>E-mail *</label>
+                <input type="email" id="email">
+                <span class="erro" id="e-email"></span>
+            </div>
+
+            <div class="campo">
+                <label>Telefone *</label>
+                <input type="tel" id="telefone" placeholder="(00) 00000-0000" maxlength="15">
+                <span class="erro" id="e-telefone"></span>
+            </div>
+
+            <div class="campo">
+                <label>Data de Nascimento</label>
+                <input type="date" id="data">
+            </div>
+
+            <div class="campo">
+                <label>Motivo *</label>
+                <select id="motivo">
+                    <option value="">Selecione...</option>
+                    <option value="duvida">Dúvida</option>
+                    <option value="sugestao">Sugestão</option>
+                </select>
+                <span class="erro" id="e-motivo"></span>
+            </div>
+
+            <div class="campo radio-container">
+                <label>Retorno preferencial:</label>
+                <div class="radio-opcoes">
+                    <label><input type="radio" name="retorno" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="retorno" value="Não"> Não</label>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Mensagem *</label>
+                <textarea id="mensagem" maxlength="500"></textarea>
+                <div class="contador-letras"><span id="letras">0</span>/500</div>
+                <span class="erro" id="e-mensagem"></span>
+            </div>
+
+            <div class="campo checkbox-container">
+                <label><input type="checkbox" id="termos"> Aceito os termos *</label>
+                <span class="erro" id="e-termos"></span>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        // ==================== LÓGICA (JAVASCRIPT INTERNO) ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('form-contato');
+            const totalContatos = document.getElementById('total-contatos');
+            const msgSucesso = document.getElementById('sucesso-msg');
+
+            const atualizarContador = () => {
+                const dados = JSON.parse(localStorage.getItem('contatos')) || [];
+                totalContatos.textContent = dados.length;
+            };
+            atualizarContador();
+
+            // Máscara do Telefone
+            document.getElementById('telefone').addEventListener('input', (e) => {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+                e.target.value = !x ? x : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            });
+
+            // Contador de Caracteres
+            document.getElementById('mensagem').addEventListener('input', (e) => {
+                document.getElementById('letras').textContent = e.target.value.length;
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); 
+                let valido = true;
+
+                document.querySelectorAll('.erro').forEach(s => s.textContent = '');
+                document.querySelectorAll('input, select, textarea').forEach(i => i.classList.remove('input-erro'));
+                msgSucesso.className = 'sucesso-oculto';
+
+                const verificar = (id, erroId, condicao, textoErro) => {
+                    const el = document.getElementById(id);
+                    if (condicao) {
+                        document.getElementById(erroId).textContent = textoErro;
+                        el.classList.add('input-erro');
+                        valido = false;
+                    }
+                };
+
+                verificar('nome', 'e-nome', document.getElementById('nome').value.trim() === '', 'Nome obrigatório.');
+                
+                const email = document.getElementById('email').value.trim();
+                verificar('email', 'e-email', email === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), 'E-mail inválido.');
+                
+                verificar('telefone', 'e-telefone', document.getElementById('telefone').value.replace(/\D/g, '').length < 10, 'Telefone inválido.');
